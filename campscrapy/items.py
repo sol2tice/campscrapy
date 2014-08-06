@@ -33,3 +33,5 @@ class CampItem(scrapy.Item):
 	asianpop = scrapy.Field()
 	longitute = scrapy.Field()
 	latitute = scrapy.Field()
+	image_urls = scrapy.Field()
+	images = scrapy.Field()

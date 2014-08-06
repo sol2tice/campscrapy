@@ -20,3 +20,10 @@ DEFAULT_REQUEST_HEADERS = {
 # 'Accept-Language': 'zh'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'campscrapy (+http://www.yourdomain.com)'
+
+ITEM_PIPELINES = {'scrapy.contrib.pipeline.images.ImagesPipeline': 1}
+IMAGES_STORE = './img'
+IMAGES_EXPIRES = 90
+IMAGES_THUMBS = {
+    'small': (50, 50)
+}

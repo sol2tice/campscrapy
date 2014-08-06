@@ -1,6 +1,7 @@
 import scrapy
 from campscrapy.items import CampItem
 from scrapy.http import Request
+import urlparse
 
 class CampSpider(scrapy.Spider):
     CONCURRENT_REQUESTS = 100
@@ -16,7 +17,7 @@ class CampSpider(scrapy.Spider):
     notfound = 0;
 
     def parse(self, response):
-	for i in range(1, 1300): 
+	for i in range(1, 1400): 
 	  url = self.start_urls[0]+ str(i)
 	  yield Request(url, callback = self.parse_program)
  	print 'Total notfound = %s' % self.notfound;
@@ -35,6 +36,8 @@ class CampSpider(scrapy.Spider):
 	print 'id = %s' % response.url[len('http://www.meedow.com/program/'):] 
 	item['title'] = response.xpath('//div[@class="title"]/h2/text()').extract()[0]
 	item['city'] = response.xpath('//div[@class="address"]/dd/text()').extract()[0]
+	image_relative_url = response.xpath('//div[@class="picture large"]/img/@src').extract()[0]
+	item['image_urls'] = [urlparse.urljoin(response.url, image_relative_url.strip())]
 	sel = response.xpath('//div[@class="info-container"]')
 	grad = ''
 	for s in sel.xpath('//ul/li[1]//ul/li'):
@@ -61,7 +64,9 @@ class CampSpider(scrapy.Spider):
 	sel = response.xpath('//div[@id="program-details"]')
 	item['description'] = sel.xpath('section[@id="summary"]/p/text()').extract()[0]
 	item['schoolinfo'] = sel.xpath('section[@id="school-info"]/p/text()').extract()[0]
-	item['timecost'] = sel.xpath('section[@id="time-cost"]/p/text()').extract()[0]
+	cost = sel.xpath('section[@id="time-cost"]/p/text()').extract()
+	if len(cost) > 0:
+	    item['timecost'] = cost[0]
 	item['guide'] = sel.xpath('section[@id="apply-guide"]/p/text()').extract()[0]
 	item['crimerate'] = sel.xpath('//div[@class="map-data-number"]/text()').extract()[0]
 	item['weather'] = sel.xpath('//div[@class="map-data-number"]/a/text()').extract()[0]
