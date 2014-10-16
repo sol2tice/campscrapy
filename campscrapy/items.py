@@ -35,3 +35,27 @@ class CampItem(scrapy.Item):
 	latitute = scrapy.Field()
 	image_urls = scrapy.Field()
 	images = scrapy.Field()
+
+class Course(scrapy.Item):
+	title = scrapy.Field()
+	url = scrapy.Field()
+	chapters = scrapy.Field()
+
+class Chapter(scrapy.Item):
+	title = scrapy.Field()
+	ch_num = scrapy.Field()
+	lessons = scrapy.Field()
+	
+class VideoItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    ch_num = scrapy.Field()
+    l_num = scrapy.Field() 
+    hashcode = scrapy.Field()
+    embed_url= scrapy.Field()
+    url = scrapy.Field()
+    title = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
+    mdmp4_url = scrapy.Field()
+
